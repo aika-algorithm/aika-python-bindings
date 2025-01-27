@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>network.aika</groupId>
+    <artifactId>aika-python-bindings</artifactId>
+    <version>${revision}</version>
+    <url>https://aika.network</url>
+    <description>An Artificial Intelligence for Knowledge Acquisition</description>
+
+    <developers>
+        <developer>
+            <id>Lukas Molzberger</id>
+            <name>Lukas Molzberger</name>
+            <email>lukas.molzberger@aika.network</email>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/aika-algorithm/aika</url>
+        <connection>scm:git:git://github.com/aika-algorithm/aika.git</connection>
+        <developerConnection>scm:git:git@github.com:aika-algorithm/aika.git</developerConnection>
+        <tag>${revision}</tag>
+    </scm>
+
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
+    <issueManagement>
+        <system>github</system>
+        <url>https://github.com/aika-algorithm/aika/issues</url>
+    </issueManagement>
+
+    <properties>
+        <revision>1.0.0-SNAPSHOT</revision>
+        <aika.version>2.0.9-rc31</aika.version>
+
+        <maven.compiler.source>23</maven.compiler.source>
+        <maven.compiler.target>23</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <cmake.dir>./target</cmake.dir>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.graalvm.nativeimage</groupId>
+                <artifactId>native-image-maven-plugin</artifactId>
+                <version>21.2.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>native-image</goal>
+                        </goals>
+                        <configuration>
+                            <imageName>libaika</imageName>
+                            <buildArgs>
+                                <buildArg>--no-fallback</buildArg>
+                                <buildArg>--shared</buildArg>
+                                <buildArg>-H:+UnlockExperimentalVMOptions</buildArg>
+                            </buildArgs>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Add CMake plugin -->
+            <plugin>
+                <groupId>com.googlecode.cmake-maven-project</groupId>
+                <artifactId>cmake-maven-plugin</artifactId>
+                <version>3.30.2-b1</version>
+                <executions>
+                    <execution>
+                        <id>cmake-generate</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <sourcePath>src/main/cpp</sourcePath>
+                            <targetPath>target</targetPath>
+                            <environmentVariables>
+                                <CMAKE_MAKE_PROGRAM>/usr/bin/make</CMAKE_MAKE_PROGRAM>
+                            </environmentVariables>
+                            <options>
+                                <option>
+                                    -D CMAKE_MAKE_PROGRAM=/usr/bin/make
+                                </option>
+                                <option>
+                                    -D CMAKE_C_COMPILER=/usr/bin/clang
+                                </option>
+                                <option>
+                                    -D CMAKE_CXX_COMPILER=/usr/bin/g++
+                                </option>
+                            </options>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>setup-virtualenv</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>src/main/python/setup_env.sh</executable>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+
+    <dependencies>
+
+
+    </dependencies>
+
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>network.aika</groupId>
+                <artifactId>aika-fields</artifactId>
+                <version>${aika.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>network.aika</groupId>
+                <artifactId>aika-core</artifactId>
+                <version>${aika.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>network.aika</groupId>
+                <artifactId>aika-model</artifactId>
+                <version>${aika.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>network.aika</groupId>
+                <artifactId>aika-debug</artifactId>
+                <version>${aika.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+</project>
