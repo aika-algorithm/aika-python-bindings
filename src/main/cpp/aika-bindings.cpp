@@ -66,7 +66,7 @@ const char* call_graalvm_method(char* input)
 }
 
 
-PYBIND11_MODULE(aika-bindings,m)
+PYBIND11_MODULE(aika_bindings,m)
 {
   m.doc() = "pybind11 aika-bindings plugin";
 

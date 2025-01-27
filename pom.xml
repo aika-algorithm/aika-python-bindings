@@ -105,9 +105,6 @@
                         <configuration>
                             <sourcePath>src/main/cpp</sourcePath>
                             <targetPath>target</targetPath>
-                            <environmentVariables>
-                                <CMAKE_MAKE_PROGRAM>/usr/bin/make</CMAKE_MAKE_PROGRAM>
-                            </environmentVariables>
                             <options>
                                 <option>
                                     -D CMAKE_MAKE_PROGRAM=/usr/bin/make
@@ -138,6 +135,17 @@
                             <executable>src/main/python/setup_env.sh</executable>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>make</id>
+                        <phase>package</phase> <!-- You can adjust the phase as needed -->
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>make</executable>
+                            <workingDirectory>target</workingDirectory> <!-- Path to where the Makefile is generated -->
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>
@@ -145,10 +153,7 @@
 
 
     <dependencies>
-
-
     </dependencies>
-
 
     <dependencyManagement>
         <dependencies>
