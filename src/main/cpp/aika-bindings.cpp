@@ -75,20 +75,3 @@ PYBIND11_MODULE(aika_bindings,m)
   // GraalVM native function exposed to Python
   m.def("call_graalvm", &call_graalvm_method, "Call a GraalVM native method");
 }
-
-int main() {
-    // Example input string
-    char input[] = "World";
-
-    // Call the GraalVM native method
-    const char* result = call_graalvm_method(input);
-
-    // Check if the result is valid and print the result
-    if (result) {
-        std::cout << "GraalVM result: " << result << std::endl;
-    } else {
-        std::cerr << "Error calling GraalVM method." << std::endl;
-    }
-
-    return 0;
-}
