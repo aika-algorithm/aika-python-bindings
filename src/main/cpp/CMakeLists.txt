@@ -20,8 +20,8 @@ add_definitions(-DPYBIND11_DEBUG)
 
 include_directories( "../../../target" )
 
-target_link_libraries(example PRIVATE Python3::Python)
-#target_link_libraries(aika_bindings PRIVATE ${CMAKE_BINARY_DIR}/libaika.dylib)
+target_link_libraries(aika_bindings PRIVATE Python3::Python)
+target_link_libraries(aika_bindings PRIVATE ${CMAKE_BINARY_DIR}/libaika.dylib)
 
 message(STATUS "Python include dirs: ${Python3_INCLUDE_DIRS}")
 message(STATUS "PyBind11 include dirs: ${pybind11_INCLUDE_DIRS}")
