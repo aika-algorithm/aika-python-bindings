@@ -4,6 +4,6 @@
 
 ln -s ../../../target/venv/lib/python3.12/site-packages/pybind11 .
 
-c++ -O3 -Wall -shared -std=c++11 -undefined dynamic_lookup -I ../../../target -L  ../../../target -laika -fPIC $(python3 -m pybind11 --includes) aika-bindings.cpp -o aika_bindings$(python3-config --extension-suffix)
+c++ -O3 -Wall -shared -std=c++17 -undefined dynamic_lookup -I ../../../target -L  ../../../target -laika -fPIC $(python3 -m pybind11 --includes) aika-bindings.cpp -o aika_bindings$(python3-config --extension-suffix)
 
 mv aika_bindings.cpython-312-darwin.so ../python

@@ -3,6 +3,7 @@
 #include <vector>
 #include <iostream>
 #include <libaika.h>
+#include <memory>
 
 
 
@@ -57,10 +58,27 @@ const char* call_graalvm_method(char* input)
     return duplicated_result;
 }
 
+class MyClass {
+public:
+    MyClass() {}
+    void print() const {
+        std::cout << "Hello from MyClass!" << std::endl;
+    }
+};
+
+std::unique_ptr<MyClass> create_instance() {
+    return std::make_unique<MyClass>();
+}
 
 PYBIND11_MODULE(aika_bindings,m)
 {
   m.doc() = "pybind11 aika_bindings plugin";
+
+  py::class_<MyClass>(m, "MyClass")
+      .def(py::init<>())
+      .def("print", &MyClass::print);
+
+  m.def("create_instance", &create_instance, "Create a new MyClass instance");
 
   m.def("modify", &modify, "Multiply all entries of a list by 2.0");
 

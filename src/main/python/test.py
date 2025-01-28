@@ -8,3 +8,12 @@ print(B)
 
 print(aika_bindings.call_graalvm("Blub"))
 
+obj = aika_bindings.MyClass()
+
+# Call methods on the object
+obj.print()  # This will output: "Hello from MyClass!"
+
+
+
+
+

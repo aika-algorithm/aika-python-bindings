@@ -166,6 +166,10 @@
 
 
     <dependencies>
+        <dependency>
+            <groupId>network.aika</groupId>
+            <artifactId>aika-fields</artifactId>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
