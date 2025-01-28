@@ -2,8 +2,7 @@
 #include <pybind11/stl.h>
 #include <vector>
 #include <iostream>
-#include <dlfcn.h> // For dlopen and dlsym
-#include <libaika.h>
+//#include <libaika.h>
 
 
 
@@ -25,13 +24,6 @@ std::vector<double> modify(const std::vector<double>& input)
     [](double x) -> double { return 2.*x; }
   );
 
-  // N.B. this is equivalent to (but there are also other ways to do the same)
-  //
-  // std::vector<double> output(input.size());
-  //
-  // for ( size_t i = 0 ; i < input.size() ; ++i )
-  //   output[i] = 2. * input[i];
-
   return output;
 }
 
@@ -42,7 +34,7 @@ std::vector<double> modify(const std::vector<double>& input)
 namespace py = pybind11;
 
 // Load and call the GraalVM native library
-const char* call_graalvm_method(char* input)
+/*const char* call_graalvm_method(char* input)
 {
     graal_isolate_t *isolate = NULL;
     graal_isolatethread_t *thread = NULL;
@@ -64,14 +56,14 @@ const char* call_graalvm_method(char* input)
 
     return duplicated_result;
 }
-
+*/
 
 PYBIND11_MODULE(aika_bindings,m)
 {
-  m.doc() = "pybind11 aika-bindings plugin";
+  m.doc() = "pybind11 aika_bindings plugin";
 
   m.def("modify", &modify, "Multiply all entries of a list by 2.0");
 
   // GraalVM native function exposed to Python
-  m.def("call_graalvm", &call_graalvm_method, "Call a GraalVM native method");
+  //m.def("call_graalvm", &call_graalvm_method, "Call a GraalVM native method");
 }
