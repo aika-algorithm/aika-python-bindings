@@ -1,8 +1,8 @@
 import aika_bindings
 
-obj = aika_bindings.AikaBinding()
+aikaBindings = aika_bindings.AikaBinding()
 
-print(obj.greet("Ping"))
+print(aikaBindings.greet("Ping"))
 
 
 

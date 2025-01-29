@@ -9,11 +9,11 @@ import org.graalvm.nativeimage.c.function.CEntryPoint;
 import org.graalvm.nativeimage.c.type.CCharPointer;
 import org.graalvm.nativeimage.c.type.CTypeConversion;
 
-import java.util.List;
 
 public class AikaBindings {
 
-    // Method to return a greeting message
+    public static TypeRegistry registry;
+
     @CEntryPoint(name = "greet")
     public static CCharPointer greet(IsolateThread thread, CCharPointer cFilter) {
         String input = CTypeConversion.toJavaString(cFilter);
@@ -23,5 +23,11 @@ public class AikaBindings {
         Type type = new Type(registry, input);
 
         return CTypeConversion.toCString(type.toString()).get();
+    }
+
+    @CEntryPoint(name = "init")
+    public static void init(IsolateThread thread) {
+        System.out.println("Aika bindings initialized.");
+        registry = new TypeRegistryImpl();
     }
 }

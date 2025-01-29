@@ -23,6 +23,8 @@ public:
         if (graal_create_isolate(NULL, &isolate, &thread) != 0) {
             std::cerr << "initialization error" << std::endl;
         }
+
+       ::init(thread);
     }
 
     void destroy() {
